@@ -1,5 +1,12 @@
 # IPD RL Lab — Iterated Prisoner's Dilemma & 2 AI Agent Duel
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-ipd.hamzafpv.com.tr-brightgreen)](https://ipd.hamzafpv.com.tr)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+
 A real-time, **100% client-side** **Reinforcement Learning (Tabular Q-Learning) Laboratory** and **2 AI Agent Duel Arena** built around the classic **Iterated Prisoner's Dilemma** from Game Theory.
 
 Built with **Vite + React + TypeScript + Tailwind CSS v4** — zero backend required. All machine learning updates, game-theory simulations, and live telemetry charts run directly in the user's browser.
@@ -108,3 +115,9 @@ To create a production build:
 npm run build
 npm run preview
 ```
+
+---
+
+## License
+
+This project is open source and licensed under the [MIT License](LICENSE).
