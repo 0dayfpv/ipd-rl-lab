@@ -293,7 +293,7 @@ export function App() {
   }, [activeTab, snapshot.alphaBrain, snapshot.betaBrain, handleHumanAction, handleTogglePlay]);
 
   return (
-    <div className="min-h-screen text-slate-100">
+    <div className="flex min-h-screen flex-col text-slate-100">
       {/* Top Tactical Header */}
       <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-[#060913]/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
@@ -368,7 +368,7 @@ export function App() {
       </header>
 
       {/* Main Content */}
-      <main className="mx-auto flex max-w-[1440px] flex-col gap-5 px-4 py-5 sm:px-6">
+      <main className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col gap-5 px-4 py-5 sm:px-6">
         {activeTab === 'lab' ? (
           <>
             {/* 1. Live Duel Arena */}
@@ -432,6 +432,20 @@ export function App() {
           />
         )}
       </main>
+
+      <footer className="mt-auto border-t border-slate-800/80 bg-[#060913]/90 py-4 text-center font-mono text-xs text-slate-400">
+        © 2025–{Math.max(2026, new Date().getFullYear())}{' '}
+        <a
+          href="https://hamzafpv.com.tr"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-emerald-400 transition hover:text-emerald-300 hover:underline"
+        >
+          hamzafpv.com.tr
+        </a>
+        {' • '}
+        <span>All rights reserved.</span>
+      </footer>
     </div>
   );
 }
