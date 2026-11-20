@@ -112,7 +112,7 @@ export const StrategyDetector: React.FC<StrategyDetectorProps> = ({ analysis, ro
   const segments = [
     {
       key: 'mutual-coop',
-      label: 'Karşılıklı İş Birliği',
+      label: 'Mutual Cooperation',
       shortCode: 'C-C',
       pct: mutualCoop,
       barClass: 'bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.45)]',
@@ -121,7 +121,7 @@ export const StrategyDetector: React.FC<StrategyDetectorProps> = ({ analysis, ro
     },
     {
       key: 'mutual-defect',
-      label: 'Karşılıklı İhanet',
+      label: 'Mutual Defection',
       shortCode: 'D-D',
       pct: mutualDefect,
       barClass: 'bg-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.45)]',
@@ -130,7 +130,7 @@ export const StrategyDetector: React.FC<StrategyDetectorProps> = ({ analysis, ro
     },
     {
       key: 'alpha-exploit',
-      label: 'Alpha Sömürüsü',
+      label: 'Alpha Exploitation',
       shortCode: 'D-C',
       pct: alphaExploit,
       barClass: 'bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.4)]',
@@ -139,7 +139,7 @@ export const StrategyDetector: React.FC<StrategyDetectorProps> = ({ analysis, ro
     },
     {
       key: 'beta-exploit',
-      label: 'Beta Sömürüsü',
+      label: 'Beta Exploitation',
       shortCode: 'C-D',
       pct: betaExploit,
       barClass: 'bg-violet-400 shadow-[0_0_12px_rgba(167,139,250,0.45)]',
@@ -160,11 +160,11 @@ export const StrategyDetector: React.FC<StrategyDetectorProps> = ({ analysis, ro
           </div>
           <div>
             <h2 className="text-sm font-semibold tracking-wide text-slate-100 uppercase">
-              Strateji Dedektörü{' '}
-              <span className="text-slate-400 font-normal normal-case">(Son 50 Tur)</span>
+              Strategy Detector{' '}
+              <span className="text-slate-400 font-normal normal-case">(Last 50 Rounds)</span>
             </h2>
             <p className="text-xs text-slate-400">
-              Oyun teorisi denge ve etkileşim rejimi analizi
+              Game-theoretic equilibrium &amp; interaction regime analysis
             </p>
           </div>
         </div>
@@ -172,10 +172,10 @@ export const StrategyDetector: React.FC<StrategyDetectorProps> = ({ analysis, ro
         <div className="flex items-center gap-2 font-mono text-xs">
           <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700/80 bg-slate-950/70 px-2.5 py-1 text-slate-300">
             <Crosshair className="h-3.5 w-3.5 text-slate-400" />
-            Tur #{round.toLocaleString('tr-TR')}
+            Round #{round.toLocaleString('en-US')}
           </span>
           <span className="rounded-lg border border-slate-800 bg-slate-950/60 px-2.5 py-1 text-slate-400">
-            Pencere: {analysis.windowSize} tur
+            Window: {analysis.windowSize} rounds
           </span>
         </div>
       </div>
@@ -205,9 +205,9 @@ export const StrategyDetector: React.FC<StrategyDetectorProps> = ({ analysis, ro
       {/* Stacked Horizontal Equilibrium Distribution Bar */}
       <div className="space-y-3">
         <div className="flex items-center justify-between text-[11px] uppercase tracking-wider text-slate-400">
-          <span>Denge Dağılımı</span>
+          <span>Equilibrium Distribution</span>
           <span className="font-mono text-slate-500">
-            {totalPct > 0 ? '100% Pencere Dağılımı' : 'Veri Bekleniyor'}
+            {totalPct > 0 ? '100% Window Breakdown' : 'Awaiting Data'}
           </span>
         </div>
 
@@ -218,7 +218,7 @@ export const StrategyDetector: React.FC<StrategyDetectorProps> = ({ analysis, ro
                 <div
                   key={seg.key}
                   style={{ width: `${seg.pct}%` }}
-                  title={`${seg.label}: %${seg.pct.toFixed(1)}`}
+                  title={`${seg.label}: ${seg.pct.toFixed(1)}%`}
                   className={`h-full first:rounded-l-full last:rounded-r-full transition-all duration-300 ${seg.barClass}`}
                 />
               ) : null,
@@ -243,7 +243,7 @@ export const StrategyDetector: React.FC<StrategyDetectorProps> = ({ analysis, ro
                 </div>
               </div>
               <span className={`font-mono text-sm font-semibold tabular-nums ${seg.textClass}`}>
-                %{seg.pct.toFixed(1)}
+                {seg.pct.toFixed(1)}%
               </span>
             </div>
           ))}

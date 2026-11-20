@@ -45,9 +45,9 @@ export function analyzeStrategy(
   if (windowSize < MIN_ROUNDS_FOR_ANALYSIS) {
     return {
       id: 'insufficient-data',
-      label: 'Veri Toplanıyor...',
+      label: 'Collecting Data...',
       description:
-        'Denge analizi için en az 10 tur tamamlanması bekleniyor.',
+        'Waiting for at least 10 completed rounds to evaluate equilibrium.',
       severity: 'slate',
       windowSize,
       mutualCoopPct,
@@ -60,9 +60,9 @@ export function analyzeStrategy(
   if (mutualCoopPct >= 70) {
     return {
       id: 'mutual-cooperation',
-      label: 'Karşılıklı İş Birliği Kuruldu',
+      label: 'Mutual Cooperation Established',
       description:
-        'Her iki ajan da yüksek ortak kazanç sağlayan Pareto-optimal iş birliği dengesine ulaştı.',
+        'Both agents converged to the Pareto-optimal mutual cooperation equilibrium with high joint payoff.',
       severity: 'emerald',
       windowSize,
       mutualCoopPct,
@@ -75,9 +75,9 @@ export function analyzeStrategy(
   if (mutualDefectPct >= 70) {
     return {
       id: 'nash-defection',
-      label: 'Nash Dengesi: İhanet Sarmalı',
+      label: 'Nash Equilibrium: Defection Spiral',
       description:
-        'Ajanlar karşılıklı güvensizlik nedeniyle düşük getirili Nash ihanet dengesine kilitlendi.',
+        'Mutual distrust locked both agents into the low-payoff Nash defection equilibrium.',
       severity: 'red',
       windowSize,
       mutualCoopPct,
@@ -90,9 +90,9 @@ export function analyzeStrategy(
   if (alphaExploitPct >= 50) {
     return {
       id: 'alpha-exploiting',
-      label: "Alpha, Beta'yı Sömürüyor",
+      label: 'Alpha Exploiting Beta',
       description:
-        "Alpha tutarlı biçimde ihanet ederek Beta'nın iş birliği eğiliminden tek taraflı kazanç sağlıyor.",
+        "Alpha consistently defects to extract unilateral payoff from Beta's cooperation.",
       severity: 'amber',
       windowSize,
       mutualCoopPct,
@@ -105,9 +105,9 @@ export function analyzeStrategy(
   if (betaExploitPct >= 50) {
     return {
       id: 'beta-exploiting',
-      label: "Beta, Alpha'yı Sömürüyor",
+      label: 'Beta Exploiting Alpha',
       description:
-        "Beta tutarlı biçimde ihanet ederek Alpha'nın iş birliği eğiliminden tek taraflı kazanç sağlıyor.",
+        "Beta consistently defects to extract unilateral payoff from Alpha's cooperation.",
       severity: 'amber',
       windowSize,
       mutualCoopPct,
@@ -120,9 +120,9 @@ export function analyzeStrategy(
   if (alphaExploitPct + betaExploitPct >= 45) {
     return {
       id: 'alternating-retaliation',
-      label: 'Karşılıklı Misilleme / Dalgalanma',
+      label: 'Mutual Retaliation / Oscillation',
       description:
-        'Ajanlar arasında asimetrik hamleler, karşılıklı misillemeler veya dönüşümlü strateji salınımları gözleniyor.',
+        'Asymmetric moves, tit-for-tat retaliations, or alternating strategy cycles are occurring.',
       severity: 'cyan',
       windowSize,
       mutualCoopPct,
@@ -134,9 +134,9 @@ export function analyzeStrategy(
 
   return {
     id: 'exploring-unstable',
-    label: 'Keşif Aşaması / Kararsız Denge',
+    label: 'Exploration Phase / Unstable Equilibrium',
     description:
-      'Ajanlar farklı stratejileri test ediyor; henüz baskın ve kalıcı bir oyun teorik denge oluşmadı.',
+      'Agents are still testing different strategies; no dominant long-term equilibrium has formed yet.',
     severity: 'purple',
     windowSize,
     mutualCoopPct,

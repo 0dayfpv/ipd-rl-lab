@@ -48,16 +48,16 @@ const BRAIN_OPTIONS: BrainType[] = [
 ];
 
 const SPEED_OPTIONS: { value: SimulationSpeed; label: string; title: string }[] = [
-  { value: '1x', label: '1x', title: 'Yavaş / Görsel Analiz (~1.5 tur/sn)' },
-  { value: '10x', label: '10x', title: 'Hızlı Gözlem (~10 tur/sn)' },
-  { value: '100x', label: '100x', title: 'Hızlandırılmış (~100 tur/sn)' },
-  { value: 'TURBO', label: 'TURBO', title: 'Yüksek Hızlı Eğitim (1000+ tur/sn)' },
+  { value: '1x', label: '1x', title: 'Slow / Visual Analysis (~1.5 rounds/sec)' },
+  { value: '10x', label: '10x', title: 'Fast Observation (~10 rounds/sec)' },
+  { value: '100x', label: '100x', title: 'Accelerated (~100 rounds/sec)' },
+  { value: 'TURBO', label: 'TURBO', title: 'High-Speed Training (1000+ rounds/sec)' },
 ];
 
 const PAYOFF_PRESETS: { label: string; matrix: PayoffMatrix }[] = [
-  { label: 'Klasik IPD (3/5/0/1)', matrix: { R: 3, T: 5, S: 0, P: 1 } },
-  { label: 'Sert İhanet (3/6/0/1)', matrix: { R: 3, T: 6, S: 0, P: 1 } },
-  { label: 'Barışçıl (4/5/1/1)', matrix: { R: 4, T: 5, S: 1, P: 1 } },
+  { label: 'Classic IPD (3/5/0/1)', matrix: { R: 3, T: 5, S: 0, P: 1 } },
+  { label: 'Harsh Defection (3/6/0/1)', matrix: { R: 3, T: 6, S: 0, P: 1 } },
+  { label: 'Peaceful (4/5/1/1)', matrix: { R: 4, T: 5, S: 1, P: 1 } },
 ];
 
 export const ControlPanel: React.FC<ControlPanelProps> = ({
@@ -97,10 +97,10 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             disabled={hasHuman}
             title={
               hasHuman
-                ? 'İnsan oyuncu aktifken hamleleri manuel yapmalısınız'
+                ? 'Make moves manually while a human player is active'
                 : isRunning
-                  ? 'Simülasyonu Duraklat'
-                  : 'Simülasyonu Başlat'
+                  ? 'Pause Simulation'
+                  : 'Start Simulation'
             }
             className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs sm:text-sm font-bold tracking-wide transition-all ${
               hasHuman
@@ -113,12 +113,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             {isRunning && !hasHuman ? (
               <>
                 <Pause className="w-4 h-4" />
-                <span>Duraklat</span>
+                <span>Pause</span>
               </>
             ) : (
               <>
                 <Play className="w-4 h-4" />
-                <span>{hasHuman ? 'İnsan Bekleniyor' : 'Başlat'}</span>
+                <span>{hasHuman ? 'Awaiting Human' : 'Start'}</span>
               </>
             )}
           </button>
@@ -127,7 +127,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             type="button"
             onClick={onStep}
             disabled={hasHuman}
-            title="1 Tur İlerle"
+            title="Step 1 Round"
             className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs sm:text-sm font-semibold transition-colors ${
               hasHuman
                 ? 'bg-slate-900/40 text-slate-600 border-slate-800 cursor-not-allowed'
@@ -135,17 +135,17 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             }`}
           >
             <StepForward className="w-4 h-4" />
-            <span>1 Tur İlerle</span>
+            <span>Step 1 Round</span>
           </button>
 
           <button
             type="button"
             onClick={onReset}
-            title="Tüm skorları ve Q-Table hafızasını sıfırla"
+            title="Reset all scores and Q-Table memory"
             className="inline-flex items-center gap-1.5 rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs sm:text-sm font-semibold text-rose-300 hover:bg-rose-500/20 hover:border-rose-400/60 transition-colors cursor-pointer"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>Sıfırla</span>
+            <span>Reset</span>
           </button>
         </div>
 
@@ -177,7 +177,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </div>
           {speed === 'TURBO' && (
             <span className="hidden xl:inline-block font-mono text-[10px] text-violet-300/90">
-              1000+ tur/sn
+              1000+ rounds/sec
             </span>
           )}
         </div>
@@ -186,13 +186,13 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-950/80 px-3 py-1.5 font-mono text-xs">
             <Gauge className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="text-slate-400">Tur:</span>
+            <span className="text-slate-400">Round:</span>
             <span className="font-bold text-white tabular-nums">
-              {snapshot.round.toLocaleString('tr-TR')}
+              {snapshot.round.toLocaleString('en-US')}
             </span>
             <span className="text-slate-700">|</span>
             <span className="text-emerald-300 font-semibold tabular-nums">
-              {roundsPerSec.toLocaleString('tr-TR')} tur/sn
+              {roundsPerSec.toLocaleString('en-US')} rounds/sec
             </span>
           </div>
 
@@ -202,7 +202,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             className="inline-flex items-center gap-1 rounded-xl border border-slate-700/80 bg-slate-800/70 px-2.5 py-1.5 text-xs font-semibold text-slate-300 hover:bg-slate-700/80 cursor-pointer"
           >
             <Sliders className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Ayarlar</span>
+            <span className="hidden sm:inline">Settings</span>
             {settingsOpen ? (
               <ChevronUp className="w-3.5 h-3.5" />
             ) : (
@@ -219,7 +219,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           <div className="p-4 space-y-4">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-300">
               <Brain className="w-4 h-4 text-cyan-400" />
-              <span>Ajan Beyinleri</span>
+              <span>Agent Brains</span>
             </div>
 
             {/* Agent Alpha Selector */}
@@ -228,7 +228,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 htmlFor="alpha-brain-select"
                 className="flex items-center justify-between text-xs font-semibold text-cyan-300"
               >
-                <span>Agent Alpha (Sol)</span>
+                <span>Agent Alpha (Left)</span>
                 <span className="font-mono text-[10px] text-slate-400">
                   {BRAIN_LABELS[alphaBrain].short}
                 </span>
@@ -256,7 +256,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 htmlFor="beta-brain-select"
                 className="flex items-center justify-between text-xs font-semibold text-fuchsia-300"
               >
-                <span>Agent Beta (Sağ)</span>
+                <span>Agent Beta (Right)</span>
                 <span className="font-mono text-[10px] text-slate-400">
                   {BRAIN_LABELS[betaBrain].short}
                 </span>
@@ -283,13 +283,13 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           <div className="p-4 space-y-3.5">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-300">
               <Sliders className="w-4 h-4 text-violet-400" />
-              <span>RL Hiperparametreler &amp; Gürültü</span>
+              <span>RL Hyperparameters &amp; Noise</span>
             </div>
 
             {/* Learning Rate alpha */}
             <div className="space-y-1">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-300">Öğrenme Hızı (α)</span>
+                <span className="text-slate-300">Learning Rate (α)</span>
                 <span className="font-mono font-bold text-cyan-300">
                   {hyperparams.alpha.toFixed(2)}
                 </span>
@@ -310,7 +310,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             {/* Discount Factor gamma */}
             <div className="space-y-1">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-300">Gelecek İndirgeme (γ)</span>
+                <span className="text-slate-300">Discount Factor (γ)</span>
                 <span className="font-mono font-bold text-cyan-300">
                   {hyperparams.gamma.toFixed(2)}
                 </span>
@@ -331,19 +331,19 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             {/* Exploration Rate epsilon */}
             <div className="space-y-1">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-300">Keşif Oranı (ε)</span>
+                <span className="text-slate-300">Exploration Rate (ε)</span>
                 <div className="flex items-center gap-2">
                   <span className="font-mono font-bold text-violet-300">
                     {(hyperparams.epsilon * 100).toFixed(0)}%
                   </span>
                   <button
                     type="button"
-                    title="Aktif ajanların ε değerini bu seviyeye uygula"
+                    title="Apply this ε value to active agents"
                     onClick={() => onHyperparamsChange({ ...hyperparams }, true)}
                     className="inline-flex items-center gap-1 rounded border border-violet-500/40 bg-violet-500/15 px-1.5 py-0.5 text-[10px] font-mono text-violet-200 hover:bg-violet-500/25 cursor-pointer"
                   >
                     <RefreshCw className="w-2.5 h-2.5" />
-                    Uygula
+                    Apply
                   </button>
                 </div>
               </div>
@@ -366,7 +366,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             {/* Epsilon Decay */}
             <div className="space-y-1">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-300">Epsilon Azalma (Decay)</span>
+                <span className="text-slate-300">Epsilon Decay</span>
                 <span className="font-mono font-bold text-violet-300">
                   {hyperparams.epsilonDecay.toFixed(3)}
                 </span>
@@ -390,9 +390,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             {/* Noise */}
             <div className="space-y-1 pt-2 border-t border-slate-800/70">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-amber-300 font-medium">İletişim Gürültüsü (Noise)</span>
+                <span className="text-amber-300 font-medium">Communication Noise</span>
                 <span className="font-mono font-bold text-amber-300">
-                  %{(noise * 100).toFixed(0)}
+                  {(noise * 100).toFixed(0)}%
                 </span>
               </div>
               <input
@@ -411,7 +411,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           <div className="p-4 space-y-3.5">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-300">
               <Grid2x2 className="w-4 h-4 text-[#00ff9d]" />
-              <span>Dinamik Kazanç Matrisi</span>
+              <span>Dynamic Payoff Matrix</span>
             </div>
 
             {/* 2x2 Matrix Grid */}
@@ -420,7 +420,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <div className="rounded-xl border border-emerald-500/35 bg-emerald-500/10 p-2.5">
                 <div className="flex items-center justify-between text-[11px] font-mono">
                   <span className="font-bold text-[#00ff9d]">R (C / C)</span>
-                  <span className="text-slate-400">Ödül</span>
+                  <span className="text-slate-400">Reward</span>
                 </div>
                 <input
                   type="number"
@@ -434,7 +434,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <div className="rounded-xl border border-rose-500/35 bg-rose-500/10 p-2.5">
                 <div className="flex items-center justify-between text-[11px] font-mono">
                   <span className="font-bold text-[#ff2a5f]">T (D / C)</span>
-                  <span className="text-slate-400">İhanet</span>
+                  <span className="text-slate-400">Temptation</span>
                 </div>
                 <input
                   type="number"
@@ -448,7 +448,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <div className="rounded-xl border border-slate-700/80 bg-slate-900/80 p-2.5">
                 <div className="flex items-center justify-between text-[11px] font-mono">
                   <span className="font-bold text-slate-300">S (C / D)</span>
-                  <span className="text-slate-400">Enayi</span>
+                  <span className="text-slate-400">Sucker</span>
                 </div>
                 <input
                   type="number"
@@ -462,7 +462,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <div className="rounded-xl border border-amber-500/35 bg-amber-500/10 p-2.5">
                 <div className="flex items-center justify-between text-[11px] font-mono">
                   <span className="font-bold text-amber-300">P (D / D)</span>
-                  <span className="text-slate-400">Ceza</span>
+                  <span className="text-slate-400">Punishment</span>
                 </div>
                 <input
                   type="number"
@@ -476,7 +476,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             {/* Quick Presets */}
             <div className="space-y-1.5 pt-1">
               <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
-                Hızlı Şablonlar
+                Quick Presets
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {PAYOFF_PRESETS.map((preset) => {

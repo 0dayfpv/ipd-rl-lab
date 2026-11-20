@@ -25,7 +25,7 @@ const COLORS = {
 const ResponsiveCanvas: React.FC<ResponsiveCanvasProps> = ({
   draw,
   hasData,
-  emptyMessage = 'Simülasyonu başlatın...',
+  emptyMessage = 'Start the simulation...',
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -89,7 +89,7 @@ const ResponsiveCanvas: React.FC<ResponsiveCanvasProps> = ({
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center rounded-xl bg-slate-950/40 text-slate-400">
           <span className="font-mono text-xs tracking-wide">{emptyMessage}</span>
           <span className="mt-1 text-[11px] text-slate-500">
-            Grafik için en az 2 tur verisi gerekir
+            At least 2 rounds of data required to plot
           </span>
         </div>
       )}
@@ -182,15 +182,15 @@ function drawXAxisLabels(
   ctx.textBaseline = 'bottom';
 
   ctx.textAlign = 'left';
-  ctx.fillText(`T${firstRound}`, padLeft, height - 4);
+  ctx.fillText(`R${firstRound}`, padLeft, height - 4);
 
   if (midRound !== firstRound && midRound !== lastRound) {
     ctx.textAlign = 'center';
-    ctx.fillText(`T${midRound}`, padLeft + plotW / 2, height - 4);
+    ctx.fillText(`R${midRound}`, padLeft + plotW / 2, height - 4);
   }
 
   ctx.textAlign = 'right';
-  ctx.fillText(`T${lastRound}`, padLeft + plotW, height - 4);
+  ctx.fillText(`R${lastRound}`, padLeft + plotW, height - 4);
 }
 
 export const LiveCharts: React.FC<LiveChartsProps> = ({
@@ -322,23 +322,23 @@ export const LiveCharts: React.FC<LiveChartsProps> = ({
               <LineChart className="h-4 w-4" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-slate-100">İş Birliği Oranı (%)</h3>
-              <p className="text-[11px] text-slate-400">Son 100 Tur Hareketli Ortalama</p>
+              <h3 className="text-sm font-semibold text-slate-100">Cooperation Rate (%)</h3>
+              <p className="text-[11px] text-slate-400">Rolling 100-Round Moving Average</p>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 font-mono text-[11px]">
             <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-950/70 border border-slate-800 px-2 py-0.5 text-sky-300">
               <span className="h-2 w-2 rounded-full bg-sky-400" />
-              Alpha: {latest ? `%${latest.alphaCoopRate.toFixed(1)}` : '—'}
+              Alpha: {latest ? `${latest.alphaCoopRate.toFixed(1)}%` : '—'}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-950/70 border border-slate-800 px-2 py-0.5 text-pink-300">
               <span className="h-2 w-2 rounded-full bg-pink-400" />
-              Beta: {latest ? `%${latest.betaCoopRate.toFixed(1)}` : '—'}
+              Beta: {latest ? `${latest.betaCoopRate.toFixed(1)}%` : '—'}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-950/70 border border-slate-800 px-2 py-0.5 text-emerald-300">
               <span className="h-2 w-2 rounded-full bg-emerald-400" />
-              Karşılıklı: {latest ? `%${latest.mutualCoopRate.toFixed(1)}` : '—'}
+              Mutual: {latest ? `${latest.mutualCoopRate.toFixed(1)}%` : '—'}
             </span>
           </div>
         </div>
@@ -356,19 +356,19 @@ export const LiveCharts: React.FC<LiveChartsProps> = ({
               <TrendingUp className="h-4 w-4" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-slate-100">Kümülatif Skor Karşılaştırması</h3>
-              <p className="text-[11px] text-slate-400">Toplam ödül eğrisi ve puan farkı</p>
+              <h3 className="text-sm font-semibold text-slate-100">Cumulative Score Comparison</h3>
+              <p className="text-[11px] text-slate-400">Total payoff curve &amp; score delta</p>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 font-mono text-[11px]">
             <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-950/70 border border-slate-800 px-2 py-0.5 text-sky-300">
               <span className="h-2 w-2 rounded-full bg-sky-400" />
-              Alpha: {alphaScore.toLocaleString('tr-TR')}
+              Alpha: {alphaScore.toLocaleString('en-US')}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-950/70 border border-slate-800 px-2 py-0.5 text-pink-300">
               <span className="h-2 w-2 rounded-full bg-pink-400" />
-              Beta: {betaScore.toLocaleString('tr-TR')}
+              Beta: {betaScore.toLocaleString('en-US')}
             </span>
             <span
               className={`inline-flex items-center rounded-md border px-2 py-0.5 ${
@@ -382,7 +382,7 @@ export const LiveCharts: React.FC<LiveChartsProps> = ({
               Δ{' '}
               {scoreDelta === 0
                 ? '0'
-                : `${scoreDelta > 0 ? '+' : ''}${scoreDelta.toLocaleString('tr-TR')}`}
+                : `${scoreDelta > 0 ? '+' : ''}${scoreDelta.toLocaleString('en-US')}`}
             </span>
           </div>
         </div>

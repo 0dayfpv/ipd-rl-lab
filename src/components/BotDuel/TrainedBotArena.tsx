@@ -250,7 +250,7 @@ export function TrainedBotArena({
     onExportFromLab(agent, customName);
     const label = agent === 'alpha' ? 'Agent Alpha' : 'Agent Beta';
     setExportNotice(
-      `${label} (${snapshot.round} tur eğitilmiş) dışa aktarıldı ve düelloya hazır!`,
+      `${label} (${snapshot.round} rounds trained) exported and ready for duel!`,
     );
     setCustomName('');
     window.setTimeout(() => setExportNotice(null), 3500);
@@ -272,11 +272,11 @@ export function TrainedBotArena({
         const text = String(reader.result ?? '');
         const imported = parseImportedBotJson(text);
         onImportBot(imported);
-        setExportNotice(`"${imported.name}" başarıyla içe aktarıldı!`);
+        setExportNotice(`"${imported.name}" imported successfully!`);
         window.setTimeout(() => setExportNotice(null), 3500);
       } catch (err) {
         setImportError(
-          err instanceof Error ? err.message : 'Dosya okunurken hata oluştu.',
+          err instanceof Error ? err.message : 'Error reading file.',
         );
       }
     };
@@ -303,11 +303,11 @@ export function TrainedBotArena({
             <div className="flex items-center gap-2">
               <Bot className="h-5 w-5 text-cyan-400" />
               <h2 className="font-mono text-sm font-bold uppercase tracking-wider text-slate-100">
-                Bot Dışa Aktarma &amp; Kasa (Bot Vault)
+                Bot Export &amp; Vault
               </h2>
             </div>
             <p className="mt-1 text-xs text-slate-400">
-              Laboratuvarda eğittiğin Q-Learning ajanlarını anlık dışa aktar, JSON olarak indir/yükle ve aşağıda bire bir düelloya çık.
+              Instantly export Q-Learning agents trained in the lab, download/upload as JSON, and challenge them 1v1 below.
             </p>
           </div>
 
@@ -316,7 +316,7 @@ export function TrainedBotArena({
               type="text"
               value={customName}
               onChange={(e) => setCustomName(e.target.value)}
-              placeholder="Bot adı (isteğe bağlı)..."
+              placeholder="Bot name (optional)..."
               className="w-48 rounded-lg border border-slate-700/80 bg-slate-900/90 px-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:border-cyan-500/70 focus:outline-none"
             />
             <button
@@ -325,13 +325,13 @@ export function TrainedBotArena({
               disabled={!canExportAlpha}
               title={
                 canExportAlpha
-                  ? 'Agent Alpha Q-Table beynini dışa aktar'
-                  : 'Agent Alpha şu an Q-Learning AI modunda değil'
+                  ? 'Export Agent Alpha Q-Table brain'
+                  : 'Agent Alpha is not currently in Q-Learning AI mode'
               }
               className="flex items-center gap-1.5 rounded-lg border border-cyan-500/40 bg-cyan-500/15 px-3 py-1.5 font-mono text-xs font-semibold text-cyan-200 transition hover:bg-cyan-500/25 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <Sparkles className="h-3.5 w-3.5" />
-              Alpha&apos;yı Aktar ({snapshot.round} tur)
+              Export Alpha ({snapshot.round} rounds)
             </button>
             <button
               type="button"
@@ -339,13 +339,13 @@ export function TrainedBotArena({
               disabled={!canExportBeta}
               title={
                 canExportBeta
-                  ? 'Agent Beta Q-Table beynini dışa aktar'
-                  : 'Agent Beta şu an Q-Learning AI modunda değil'
+                  ? 'Export Agent Beta Q-Table brain'
+                  : 'Agent Beta is not currently in Q-Learning AI mode'
               }
               className="flex items-center gap-1.5 rounded-lg border border-fuchsia-500/40 bg-fuchsia-500/15 px-3 py-1.5 font-mono text-xs font-semibold text-fuchsia-200 transition hover:bg-fuchsia-500/25 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <Sparkles className="h-3.5 w-3.5" />
-              Beta&apos;yı Aktar ({snapshot.round} tur)
+              Export Beta ({snapshot.round} rounds)
             </button>
             <button
               type="button"
@@ -353,7 +353,7 @@ export function TrainedBotArena({
               className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 font-mono text-xs font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-slate-800"
             >
               <FileUp className="h-3.5 w-3.5 text-emerald-400" />
-              JSON Yükle
+              Upload JSON
             </button>
             <input
               ref={fileInputRef}
@@ -384,12 +384,12 @@ export function TrainedBotArena({
           <div className="mt-4 flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-800 bg-slate-900/40 px-6 py-8 text-center">
             <Brain className="h-8 w-8 text-slate-600" />
             <p className="mt-2 text-sm font-medium text-slate-300">
-              Henüz dışa aktarılmış bir bot yok
+              No exported bots yet
             </p>
             <p className="mt-1 max-w-md text-xs text-slate-500">
-              Önce &quot;Laboratuvar &amp; Eğitim&quot; sekmesinde ajanları eğit (ör. TURBO ile 1000+ tur), sonra yukarıdaki{' '}
-              <span className="text-cyan-300">Alpha&apos;yı Aktar</span> veya{' '}
-              <span className="text-fuchsia-300">Beta&apos;yı Aktar</span> butonuna bas ya da bir <code className="text-slate-300">.json</code> bot dosyası yükle.
+              First train agents in the &quot;Lab &amp; Training&quot; tab (e.g., 1000+ rounds on TURBO), then click{' '}
+              <span className="text-cyan-300">Export Alpha</span> or{' '}
+              <span className="text-fuchsia-300">Export Beta</span> above, or upload a <code className="text-slate-300">.json</code> bot file.
             </p>
             {canExportAlpha && (
               <button
@@ -398,7 +398,7 @@ export function TrainedBotArena({
                 className="mt-3 flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 font-mono text-[11px] text-slate-300 hover:border-slate-500"
               >
                 <Download className="h-3.5 w-3.5" />
-                Mevcut Alpha&apos;yı Doğrudan JSON İndir
+                Download Current Alpha Directly as JSON
               </button>
             )}
           </div>
@@ -432,8 +432,8 @@ export function TrainedBotArena({
                         </h3>
                       </div>
                       <p className="mt-0.5 font-mono text-[11px] text-slate-400">
-                        {bot.trainedRounds.toLocaleString('tr-TR')} tur eğitim •{' '}
-                        {summary.totalVisits.toLocaleString('tr-TR')} ziyaret
+                        {bot.trainedRounds.toLocaleString('en-US')} rounds trained •{' '}
+                        {summary.totalVisits.toLocaleString('en-US')} visits
                       </p>
                     </div>
 
@@ -444,7 +444,7 @@ export function TrainedBotArena({
                           e.stopPropagation();
                           downloadBotJson(bot);
                         }}
-                        title="JSON olarak indir"
+                        title="Download as JSON"
                         className="rounded-md border border-slate-700/80 bg-slate-900 p-1.5 text-slate-300 transition hover:border-emerald-500/50 hover:text-emerald-300"
                       >
                         <Download className="h-3.5 w-3.5" />
@@ -455,7 +455,7 @@ export function TrainedBotArena({
                           e.stopPropagation();
                           onDeleteBot(bot.id);
                         }}
-                        title="Botu sil"
+                        title="Delete bot"
                         className="rounded-md border border-slate-700/80 bg-slate-900 p-1.5 text-slate-400 transition hover:border-rose-500/50 hover:text-rose-400"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -467,10 +467,10 @@ export function TrainedBotArena({
                   <div className="mt-3">
                     <div className="mb-1 flex items-center justify-between font-mono text-[10px]">
                       <span className="text-emerald-400">
-                        İş Birliği: {summary.coopStates}/16
+                        Cooperate: {summary.coopStates}/16
                       </span>
                       <span className="text-rose-400">
-                        İhanet: {summary.defectStates}/16
+                        Defect: {summary.defectStates}/16
                       </span>
                     </div>
                     <div className="flex h-1.5 overflow-hidden rounded-full bg-slate-800">
@@ -502,10 +502,10 @@ export function TrainedBotArena({
               </div>
               <div>
                 <h2 className="font-mono text-sm font-bold uppercase tracking-wider text-slate-100">
-                  1v1 Düello: SEN vs {selectedBot.name}
+                  1v1 Duel: YOU vs {selectedBot.name}
                 </h2>
                 <p className="font-mono text-[11px] text-slate-400">
-                  Tur #{matchRounds.length} • Kazanç Matrisi: R={selectedBot.payoffMatrix.R} / T=
+                  Round #{matchRounds.length} • Payoff Matrix: R={selectedBot.payoffMatrix.R} / T=
                   {selectedBot.payoffMatrix.T} / S={selectedBot.payoffMatrix.S} / P=
                   {selectedBot.payoffMatrix.P}
                 </p>
@@ -523,8 +523,8 @@ export function TrainedBotArena({
                 }`}
               >
                 {allowOnlineLearning
-                  ? 'Canlı Öğrenme: AÇIK'
-                  : 'Dondurulmuş Beyin (Sabit)'}
+                  ? 'Live Learning: ON'
+                  : 'Frozen Brain (Static)'}
               </button>
 
               <button
@@ -536,12 +536,12 @@ export function TrainedBotArena({
                     : 'border-slate-700 bg-slate-900 text-slate-400'
                 }`}
               >
-                Q-Table X-Ray: {showXRay ? 'AÇIK' : 'GİZLİ'}
+                Q-Table X-Ray: {showXRay ? 'ON' : 'HIDDEN'}
               </button>
 
               <div className="flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-900/90 px-2.5 py-1">
                 <span className="font-mono text-[11px] text-slate-400">
-                  Gürültü: %{Math.round(matchNoise * 100)}
+                  Noise: {Math.round(matchNoise * 100)}%
                 </span>
                 <input
                   type="range"
@@ -560,7 +560,7 @@ export function TrainedBotArena({
                 className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 font-mono text-xs font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-slate-800"
               >
                 <RotateCcw className="h-3.5 w-3.5" />
-                Maçı Sıfırla
+                Reset Match
               </button>
             </div>
           </div>
@@ -576,10 +576,10 @@ export function TrainedBotArena({
                   </div>
                   <div>
                     <div className="font-mono text-xs font-bold uppercase text-sky-300">
-                      SEN (İNSAN OYUNCU)
+                      YOU (HUMAN PLAYER)
                     </div>
                     <div className="font-mono text-[10px] text-slate-400">
-                      Ortalama: {humanAvg} puan/tur
+                      Avg: {humanAvg} pts/round
                     </div>
                   </div>
                 </div>
@@ -588,7 +588,7 @@ export function TrainedBotArena({
                     {humanScore}
                   </div>
                   <div className="font-mono text-[10px] uppercase text-slate-500">
-                    TOPLAM SKOR
+                    TOTAL SCORE
                   </div>
                 </div>
               </div>
@@ -601,9 +601,9 @@ export function TrainedBotArena({
                   className="group flex flex-col items-center justify-center gap-1 rounded-xl border border-emerald-500/50 bg-emerald-500/15 px-3 py-3.5 font-mono text-xs font-bold text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.12)] transition hover:bg-emerald-500/25 active:scale-[0.98]"
                 >
                   <Handshake className="h-5 w-5 transition-transform group-hover:scale-110" />
-                  <span>İŞ BİRLİĞİ</span>
+                  <span>COOPERATE</span>
                   <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[10px] text-emerald-200">
-                    Tuş: C
+                    Key: C
                   </span>
                 </button>
                 <button
@@ -612,9 +612,9 @@ export function TrainedBotArena({
                   className="group flex flex-col items-center justify-center gap-1 rounded-xl border border-rose-500/50 bg-rose-500/15 px-3 py-3.5 font-mono text-xs font-bold text-rose-300 shadow-[0_0_20px_rgba(244,63,94,0.12)] transition hover:bg-rose-500/25 active:scale-[0.98]"
                 >
                   <Zap className="h-5 w-5 transition-transform group-hover:scale-110" />
-                  <span>İHANET</span>
+                  <span>DEFECT</span>
                   <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] text-rose-200">
-                    Tuş: D
+                    Key: D
                   </span>
                 </button>
               </div>
@@ -628,7 +628,7 @@ export function TrainedBotArena({
                   className="animate-clash-pulse flex w-full flex-col items-center"
                 >
                   <span className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
-                    TUR #{lastRound.round} SONUCU
+                    ROUND #{lastRound.round} RESULT
                   </span>
 
                   <div className="mt-3 flex w-full items-center justify-between gap-3">
@@ -641,19 +641,19 @@ export function TrainedBotArena({
                       }`}
                     >
                       <span className="font-mono text-[10px] uppercase text-slate-400">
-                        SEN
+                        YOU
                       </span>
                       <span className="mt-0.5 font-mono text-xs font-bold">
                         {lastRound.humanAction === 'COOPERATE'
-                          ? 'İŞ BİRLİĞİ'
-                          : 'İHANET'}
+                          ? 'COOPERATE'
+                          : 'DEFECT'}
                       </span>
                       <span className="mt-1 font-mono text-lg font-extrabold">
                         +{lastRound.humanReward}
                       </span>
                       {lastRound.humanNoisy && (
                         <span className="mt-1 rounded bg-amber-500/20 px-1.5 py-0.5 font-mono text-[9px] text-amber-300">
-                          GÜRÜLTÜ!
+                          NOISE!
                         </span>
                       )}
                     </div>
@@ -673,15 +673,15 @@ export function TrainedBotArena({
                       </span>
                       <span className="mt-0.5 font-mono text-xs font-bold">
                         {lastRound.botAction === 'COOPERATE'
-                          ? 'İŞ BİRLİĞİ'
-                          : 'İHANET'}
+                          ? 'COOPERATE'
+                          : 'DEFECT'}
                       </span>
                       <span className="mt-1 font-mono text-lg font-extrabold">
                         +{lastRound.botReward}
                       </span>
                       {lastRound.botNoisy && (
                         <span className="mt-1 rounded bg-amber-500/20 px-1.5 py-0.5 font-mono text-[9px] text-amber-300">
-                          GÜRÜLTÜ!
+                          NOISE!
                         </span>
                       )}
                     </div>
@@ -691,11 +691,11 @@ export function TrainedBotArena({
                 <div className="py-6 text-center">
                   <Swords className="mx-auto h-7 w-7 text-slate-600" />
                   <p className="mt-2 font-mono text-xs text-slate-400">
-                    Hamleni seçerek düelloyu başlat
+                    Choose your move to start the duel
                   </p>
                   <p className="mt-1 font-mono text-[10px] text-slate-500">
-                    Klavye: <kbd className="rounded bg-slate-800 px-1 text-emerald-300">C</kbd> İş Birliği •{' '}
-                    <kbd className="rounded bg-slate-800 px-1 text-rose-300">D</kbd> İhanet
+                    Keyboard: <kbd className="rounded bg-slate-800 px-1 text-emerald-300">C</kbd> Cooperate •{' '}
+                    <kbd className="rounded bg-slate-800 px-1 text-rose-300">D</kbd> Defect
                   </p>
                 </div>
               )}
@@ -713,7 +713,7 @@ export function TrainedBotArena({
                       {selectedBot.name}
                     </div>
                     <div className="font-mono text-[10px] text-slate-400">
-                      Ortalama: {botAvg} puan/tur
+                      Avg: {botAvg} pts/round
                     </div>
                   </div>
                 </div>
@@ -722,7 +722,7 @@ export function TrainedBotArena({
                     {botScore}
                   </div>
                   <div className="font-mono text-[10px] uppercase text-slate-500">
-                    TOPLAM SKOR
+                    TOTAL SCORE
                   </div>
                 </div>
               </div>
@@ -730,7 +730,7 @@ export function TrainedBotArena({
               {/* Bot X-Ray: Current state & Q-values */}
               <div className="mt-4 rounded-lg border border-slate-800 bg-slate-950/80 p-3">
                 <div className="flex items-center justify-between font-mono text-[10px]">
-                  <span className="text-slate-400">BOTUN GÖRDÜĞÜ DURUM:</span>
+                  <span className="text-slate-400">STATE SEEN BY BOT:</span>
                   <span className="rounded bg-violet-500/20 px-1.5 py-0.5 font-bold text-violet-300">
                     {botCurrentState}
                   </span>
@@ -738,8 +738,8 @@ export function TrainedBotArena({
                 <p className="mt-1 text-[11px] text-slate-400">
                   {STATE_DESCRIPTIONS[botCurrentState] ??
                     (botCurrentState === 'INIT'
-                      ? 'Başlangıç durumu (ilk tur)'
-                      : 'İlk tur geçmişi')}
+                      ? 'Initial state (first round)'
+                      : 'First round history')}
                 </p>
 
                 {showXRay ? (
@@ -751,7 +751,7 @@ export function TrainedBotArena({
                           : 'border-slate-800 bg-slate-900/60 text-slate-400'
                       }`}
                     >
-                      <div className="text-[10px] opacity-80">Q(İş Birliği)</div>
+                      <div className="text-[10px] opacity-80">Q(Cooperate)</div>
                       <div className="font-bold">
                         {currentBotQ.COOPERATE.toFixed(2)}
                       </div>
@@ -763,7 +763,7 @@ export function TrainedBotArena({
                           : 'border-slate-800 bg-slate-900/60 text-slate-400'
                       }`}
                     >
-                      <div className="text-[10px] opacity-80">Q(İhanet)</div>
+                      <div className="text-[10px] opacity-80">Q(Defect)</div>
                       <div className="font-bold">
                         {currentBotQ.DEFECT.toFixed(2)}
                       </div>
@@ -771,7 +771,7 @@ export function TrainedBotArena({
                   </div>
                 ) : (
                   <div className="mt-2.5 rounded-md border border-slate-800 bg-slate-900/50 px-2.5 py-2 text-center font-mono text-[11px] text-slate-500">
-                    Kör Düello Modu — Botun Q-değerleri gizli
+                    Blind Duel Mode — Bot Q-values hidden
                   </div>
                 )}
               </div>
@@ -782,9 +782,9 @@ export function TrainedBotArena({
           {matchRounds.length > 0 && (
             <div className="mt-5 border-t border-slate-800/80 pt-4">
               <div className="mb-2 flex items-center justify-between font-mono text-[11px] text-slate-400">
-                <span>SON HAMLELER (EN YENİ SAĞDA)</span>
+                <span>RECENT MOVES (NEWEST ON RIGHT)</span>
                 <span>
-                  Skor Farkı:{' '}
+                  Score Diff:{' '}
                   <strong
                     className={
                       humanScore > botScore
@@ -804,7 +804,7 @@ export function TrainedBotArena({
                 {matchRounds.slice(-20).map((r) => (
                   <div
                     key={r.round}
-                    title={`Tur #${r.round} | Sen: ${r.humanAction} (+${r.humanReward}) vs Bot: ${r.botAction} (+${r.botReward})`}
+                    title={`Round #${r.round} | You: ${r.humanAction} (+${r.humanReward}) vs Bot: ${r.botAction} (+${r.botReward})`}
                     className="flex flex-col items-center rounded-md border border-slate-800 bg-slate-900/80 px-2 py-1 font-mono text-[10px]"
                   >
                     <span className="text-[9px] text-slate-500">#{r.round}</span>

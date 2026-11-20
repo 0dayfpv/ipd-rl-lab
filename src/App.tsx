@@ -311,7 +311,7 @@ export function App() {
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                Tekrarlı Mahkum İkilemi — 2 AI Ajan Düellosu &amp; Pekiştirmeli Öğrenme Laboratuvarı
+                Iterated Prisoner&apos;s Dilemma — 2 AI Agent Duel &amp; Reinforcement Learning Lab
               </p>
             </div>
           </div>
@@ -328,7 +328,7 @@ export function App() {
               }`}
             >
               <FlaskConical className="h-3.5 w-3.5" />
-              Laboratuvar &amp; Eğitim
+              Lab &amp; Training
             </button>
             <button
               type="button"
@@ -343,7 +343,7 @@ export function App() {
               }`}
             >
               <Bot className="h-3.5 w-3.5" />
-              Eğitilmiş Botla Oyna (1v1)
+              Play Trained Bot (1v1)
               {savedBots.length > 0 && (
                 <span className="rounded-full bg-violet-500/30 px-1.5 py-0.2 font-mono text-[10px] text-violet-200">
                   {savedBots.length}
@@ -355,12 +355,12 @@ export function App() {
           <div className="hidden items-center gap-2 text-xs xl:flex">
             <div className="flex items-center gap-1.5 rounded-md border border-slate-800 bg-slate-900/80 px-2.5 py-1.5 font-mono text-slate-300">
               <Sparkles className="h-3.5 w-3.5 text-violet-400" />
-              <span>2-Tur Bellek (16 Durum)</span>
+              <span>2-Round Memory (16 States)</span>
             </div>
             {snapshot.noise > 0 && (
               <div className="flex items-center gap-1.5 rounded-md border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 font-mono text-amber-300">
                 <ShieldAlert className="h-3.5 w-3.5" />
-                <span>Gürültü: %{Math.round(snapshot.noise * 100)}</span>
+                <span>Noise: {Math.round(snapshot.noise * 100)}%</span>
               </div>
             )}
           </div>

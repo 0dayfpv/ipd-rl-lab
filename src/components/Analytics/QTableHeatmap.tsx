@@ -153,8 +153,8 @@ const AgentQTablePanel: React.FC<AgentQTablePanelProps> = ({
               <Cpu className="h-4 w-4" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-slate-100">{agentName} — Q-Tablosu</h3>
-              <p className="text-[11px] text-slate-400">Hafıza Durumu & Politika Matrisi</p>
+              <h3 className="text-sm font-semibold text-slate-100">{agentName} — Q-Table</h3>
+              <p className="text-[11px] text-slate-400">Memory State &amp; Policy Matrix</p>
             </div>
           </div>
           <span className={`rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${accentBadge}`}>
@@ -176,8 +176,8 @@ const AgentQTablePanel: React.FC<AgentQTablePanelProps> = ({
             {brainMeta.description}
           </p>
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 px-3.5 py-2 text-xs text-slate-400">
-            Canlı Q-Table öğrenme matrisi yalnızca{' '}
-            <span className="font-semibold text-cyan-300">Q-Learning AI</span> modunda aktiftir.
+            Live Q-Table learning matrix is only active in{' '}
+            <span className="font-semibold text-cyan-300">Q-Learning AI</span> mode.
           </div>
         </div>
       </section>
@@ -206,19 +206,19 @@ const AgentQTablePanel: React.FC<AgentQTablePanelProps> = ({
             <Brain className="h-4 w-4" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-slate-100">{agentName} — Q-Table Isı Haritası</h3>
+            <h3 className="text-sm font-semibold text-slate-100">{agentName} — Q-Table Heatmap</h3>
             <p className="text-[11px] text-slate-400">
-              16 İki-Turlu Durum • Ölçek [{minVal.toFixed(1)}, {maxVal.toFixed(1)}]
+              16 Two-Round States • Scale [{minVal.toFixed(1)}, {maxVal.toFixed(1)}]
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2 font-mono text-[11px]">
           <span className="rounded-md border border-slate-800 bg-slate-950/70 px-2 py-0.5 text-slate-300">
-            {visitedStates}/16 durum
+            {visitedStates}/16 states
           </span>
           <span className="rounded-md border border-slate-800 bg-slate-950/70 px-2 py-0.5 text-slate-400">
-            Σn={totalVisits.toLocaleString('tr-TR')}
+            Σn={totalVisits.toLocaleString('en-US')}
           </span>
         </div>
       </div>
@@ -232,7 +232,7 @@ const AgentQTablePanel: React.FC<AgentQTablePanelProps> = ({
             />
             <span className={`relative inline-flex h-2 w-2 rounded-full ${activeDotClasses}`} />
           </span>
-          Aktif Hafıza Durumu:
+          Active Memory State:
         </span>
         <span className="font-mono text-xs text-slate-200">
           {activeState ? renderColoredStateTokens(activeState) : '—'}
@@ -244,12 +244,12 @@ const AgentQTablePanel: React.FC<AgentQTablePanelProps> = ({
         <table className="w-full border-collapse text-left text-xs">
           <thead>
             <tr className="border-b border-slate-800/90 bg-slate-900/80 text-[10px] uppercase tracking-wider text-slate-400">
-              <th className="py-2 pl-2.5 pr-2 font-medium">Durum (Son 2 Tur)</th>
+              <th className="py-2 pl-2.5 pr-2 font-medium">State (Last 2 Rounds)</th>
               <th className="py-2 px-2 text-right font-medium text-emerald-400/90">
-                Q(İş Birliği)
+                Q(Cooperate)
               </th>
-              <th className="py-2 px-2 text-right font-medium text-rose-400/90">Q(İhanet)</th>
-              <th className="py-2 px-2 text-center font-medium">Tercih</th>
+              <th className="py-2 px-2 text-right font-medium text-rose-400/90">Q(Defect)</th>
+              <th className="py-2 px-2 text-center font-medium">Pref</th>
               <th className="py-2 pl-1 pr-2.5 text-right font-medium">n</th>
             </tr>
           </thead>
@@ -356,20 +356,20 @@ export const QTableHeatmap: React.FC<QTableHeatmapProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-2 px-0.5">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-300">
           <Grid3X3 className="h-4 w-4 text-cyan-400" />
-          <span>Canlı Q-Table Öğrenme Matrisleri</span>
+          <span>Live Q-Table Learning Matrices</span>
         </div>
         <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
           <span className="inline-flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-sm bg-emerald-500/70" />
-            Yüksek Q(C)
+            High Q(C)
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-sm bg-rose-500/70" />
-            Yüksek Q(D)
+            High Q(D)
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-            Aktif Durum
+            Active State
           </span>
         </div>
       </div>

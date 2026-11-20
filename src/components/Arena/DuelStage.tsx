@@ -38,21 +38,21 @@ function getModeBadgeConfig(mode: DecisionMode): {
   switch (mode) {
     case 'EXPLORING':
       return {
-        label: 'EXPLORING (Rastgele Deneme)',
+        label: 'EXPLORING (Random Trial)',
         className:
           'bg-violet-500/15 text-violet-300 border-violet-400/50 shadow-[0_0_14px_rgba(167,139,250,0.35)]',
         icon: <Sparkles className="w-3.5 h-3.5 text-violet-300 animate-pulse" />,
       };
     case 'EXPLOITING':
       return {
-        label: 'EXPLOITING (Q-Table Kararı)',
+        label: 'EXPLOITING (Q-Table Policy)',
         className:
           'bg-cyan-500/15 text-cyan-300 border-cyan-400/45 shadow-[0_0_12px_rgba(34,211,238,0.22)]',
         icon: <Cpu className="w-3.5 h-3.5 text-cyan-300" />,
       };
     case 'HUMAN':
       return {
-        label: 'İNSAN KONTROLÜ',
+        label: 'HUMAN CONTROL',
         className:
           'bg-sky-500/15 text-sky-300 border-sky-400/45 shadow-[0_0_12px_rgba(56,189,248,0.2)]',
         icon: <User className="w-3.5 h-3.5 text-sky-300" />,
@@ -60,7 +60,7 @@ function getModeBadgeConfig(mode: DecisionMode): {
     case 'STRATEGY':
     default:
       return {
-        label: 'SABİT STRATEJİ',
+        label: 'FIXED STRATEGY',
         className: 'bg-amber-500/10 text-amber-300 border-amber-400/35',
         icon: <Brain className="w-3.5 h-3.5 text-amber-300" />,
       };
@@ -78,7 +78,7 @@ function getActionMeta(action: Action): {
 } {
   if (action === 'COOPERATE') {
     return {
-      label: 'İŞ BİRLİĞİ',
+      label: 'COOPERATE',
       short: 'C',
       textClass: 'text-[#00ff9d]',
       bgClass: 'bg-emerald-500/15',
@@ -88,7 +88,7 @@ function getActionMeta(action: Action): {
     };
   }
   return {
-    label: 'İHANET',
+    label: 'DEFECT',
     short: 'D',
     textClass: 'text-[#ff2a5f]',
     bgClass: 'bg-rose-500/15',
@@ -141,7 +141,7 @@ const AgentPod: React.FC<AgentPodProps> = ({
           ? 'border-rose-500/40 shadow-[0_0_20px_rgba(244,63,94,0.12)]'
           : 'border-slate-700/70';
 
-  const stateDesc = STATE_DESCRIPTIONS[stateKey] ?? 'Başlangıç durumu';
+  const stateDesc = STATE_DESCRIPTIONS[stateKey] ?? 'Initial state';
 
   return (
     <div
@@ -191,10 +191,10 @@ const AgentPod: React.FC<AgentPodProps> = ({
         {/* Total Score */}
         <div className="text-right shrink-0">
           <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400">
-            TOPLAM PUAN
+            TOTAL SCORE
           </div>
           <div className="font-mono text-2xl font-extrabold tracking-tight text-white tabular-nums">
-            {score.toLocaleString('tr-TR')}
+            {score.toLocaleString('en-US')}
           </div>
         </div>
       </div>
@@ -214,7 +214,7 @@ const AgentPod: React.FC<AgentPodProps> = ({
         <div className="mt-2.5 flex items-center gap-1.5 rounded-lg border border-amber-400/60 bg-amber-500/15 px-2.5 py-1 text-[11px] font-mono font-semibold text-amber-300 animate-pulse">
           <AlertTriangle className="w-3.5 h-3.5 shrink-0 text-amber-400" />
           <span>
-            GÜRÜLTÜ HATASI (NOISE):{' '}
+            NOISE GLITCH:{' '}
             {lastIntended === 'COOPERATE' ? 'C' : 'D'} →{' '}
             {lastAction === 'COOPERATE' ? 'C' : 'D'}
           </span>
@@ -226,7 +226,7 @@ const AgentPod: React.FC<AgentPodProps> = ({
         {brain === 'q-learning' && (
           <div>
             <div className="flex items-center justify-between text-[11px] font-mono mb-1">
-              <span className="text-slate-400">Keşif Oranı (ε)</span>
+              <span className="text-slate-400">Exploration Rate (ε)</span>
               <span
                 className={
                   mode === 'EXPLORING' ? 'text-violet-300 font-bold' : 'text-cyan-300 font-semibold'
@@ -249,7 +249,7 @@ const AgentPod: React.FC<AgentPodProps> = ({
         )}
 
         <div className="flex items-center justify-between gap-2 text-[11px]">
-          <span className="text-slate-400 shrink-0">Durum (State):</span>
+          <span className="text-slate-400 shrink-0">State:</span>
           <span
             title={stateDesc}
             className="font-mono text-xs font-semibold text-slate-200 bg-slate-950/80 border border-slate-800 rounded px-2 py-0.5 truncate"
@@ -295,7 +295,7 @@ export const DuelStage: React.FC<DuelStageProps> = ({
             }`}
           />
           <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-slate-300">
-            CANLI DÜELLO ARENASI
+            LIVE DUEL ARENA
           </h2>
           <span
             className={`ml-1 rounded-full px-2 py-0.5 text-[10px] font-mono font-semibold uppercase border ${
@@ -306,21 +306,21 @@ export const DuelStage: React.FC<DuelStageProps> = ({
                   : 'bg-slate-800/80 text-slate-400 border-slate-700'
             }`}
           >
-            {isTurbo && isRunning ? 'TURBO' : isRunning ? 'AKTİF' : 'DURAKLATILDI'}
+            {isTurbo && isRunning ? 'TURBO' : isRunning ? 'ACTIVE' : 'PAUSED'}
           </span>
         </div>
 
         <div className="flex items-center gap-3 font-mono text-xs text-slate-400">
           <span>
-            TUR:{' '}
+            ROUND:{' '}
             <strong className="text-slate-100 tabular-nums">
-              #{snapshot.round.toLocaleString('tr-TR')}
+              #{snapshot.round.toLocaleString('en-US')}
             </strong>
           </span>
           {snapshot.noise > 0 && (
             <span className="inline-flex items-center gap-1 rounded bg-amber-500/15 border border-amber-500/40 px-2 py-0.5 text-[11px] text-amber-300">
               <AlertTriangle className="w-3 h-3" />
-              Gürültü %{(snapshot.noise * 100).toFixed(0)}
+              Noise {(snapshot.noise * 100).toFixed(0)}%
             </span>
           )}
         </div>
@@ -357,13 +357,13 @@ export const DuelStage: React.FC<DuelStageProps> = ({
             <div className="relative z-10 flex flex-col items-center text-center w-full space-y-3">
               <div className="inline-flex items-center gap-2 rounded-full border border-violet-400/60 bg-violet-500/20 px-3.5 py-1.5 text-xs font-mono font-bold text-violet-200 shadow-[0_0_24px_rgba(139,92,246,0.4)]">
                 <Zap className="w-4 h-4 text-violet-300" />
-                <span>TURBO EĞİTİM MODU AKTİF (1000+ tur/sn)</span>
+                <span>TURBO TRAINING MODE ACTIVE (1000+ rounds/sec)</span>
               </div>
 
               <div className="font-mono text-3xl font-black text-white tabular-nums tracking-tight">
-                {snapshot.round.toLocaleString('tr-TR')}
+                {snapshot.round.toLocaleString('en-US')}
                 <span className="ml-1.5 text-xs font-normal uppercase tracking-widest text-slate-400">
-                  TUR
+                  ROUNDS
                 </span>
               </div>
 
@@ -379,7 +379,7 @@ export const DuelStage: React.FC<DuelStageProps> = ({
                 </div>
               ) : (
                 <p className="text-xs text-slate-400">
-                  Yüksek hızlı eğitim için Başlat&apos;a basın.
+                  Press Start for high-speed training.
                 </p>
               )}
             </div>
@@ -434,7 +434,7 @@ export const DuelStage: React.FC<DuelStageProps> = ({
                     <span>{alphaMeta.label}</span>
                   </div>
                   <span className="mt-1 font-mono text-xs font-semibold text-slate-200">
-                    +{lastRound.alphaReward} puan
+                    +{lastRound.alphaReward} pts
                   </span>
                 </div>
 
@@ -454,7 +454,7 @@ export const DuelStage: React.FC<DuelStageProps> = ({
                     <span>{betaMeta.label}</span>
                   </div>
                   <span className="mt-1 font-mono text-xs font-semibold text-slate-200">
-                    +{lastRound.betaReward} puan
+                    +{lastRound.betaReward} pts
                   </span>
                 </div>
               </div>
@@ -462,12 +462,12 @@ export const DuelStage: React.FC<DuelStageProps> = ({
               {/* Outcome Tag */}
               <div className="text-[11px] font-mono text-slate-400">
                 {lastRound.alphaAction === 'COOPERATE' && lastRound.betaAction === 'COOPERATE'
-                  ? 'Karşılıklı İş Birliği (R / R)'
+                  ? 'Mutual Cooperation (R / R)'
                   : lastRound.alphaAction === 'DEFECT' && lastRound.betaAction === 'DEFECT'
-                    ? 'Karşılıklı İhanet — Ceza (P / P)'
+                    ? 'Mutual Defection — Punishment (P / P)'
                     : lastRound.alphaAction === 'DEFECT'
-                      ? 'Alpha İhanetle Kazandı (T / S)'
-                      : 'Beta İhanetle Kazandı (S / T)'}
+                      ? 'Alpha Exploited via Defection (T / S)'
+                      : 'Beta Exploited via Defection (S / T)'}
               </div>
             </div>
           ) : (
@@ -477,12 +477,12 @@ export const DuelStage: React.FC<DuelStageProps> = ({
                 <Swords className="w-6 h-6 text-slate-400" />
               </div>
               <div className="text-xs font-mono font-bold uppercase tracking-widest text-slate-300">
-                ARENA HAZIR
+                ARENA READY
               </div>
               <p className="text-xs text-slate-400 max-w-[220px]">
                 {hasHuman
-                  ? 'İlk turu başlatmak için aşağıdaki hamle butonlarını veya klavyeyi kullanın.'
-                  : 'Düelloyu başlatmak için Başlat veya 1 Tur İlerle butonuna tıklayın.'}
+                  ? 'Use the action buttons below or your keyboard to start the first round.'
+                  : 'Click Start or Step 1 Round to begin the duel.'}
               </p>
             </div>
           )}
@@ -514,12 +514,12 @@ export const DuelStage: React.FC<DuelStageProps> = ({
           <div className="mb-2.5 flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sky-300">
               <User className="w-4 h-4" />
-              <span>İNSAN OYUNCU KONTROLÜ</span>
+              <span>HUMAN PLAYER CONTROL</span>
             </div>
             <span className="text-[11px] font-mono text-slate-400">
               {bothHuman
-                ? 'Klavye: Alpha [C/D] · Beta [J/K]'
-                : 'Klavye Kısayolları: [C] İş Birliği · [D] İhanet'}
+                ? 'Keyboard: Alpha [C/D] · Beta [J/K]'
+                : 'Keyboard Shortcuts: [C] Cooperate · [D] Defect'}
             </span>
           </div>
 
@@ -532,9 +532,9 @@ export const DuelStage: React.FC<DuelStageProps> = ({
               <div className="space-y-1.5">
                 {bothHuman && (
                   <div className="flex items-center justify-between text-[11px] font-mono text-cyan-300">
-                    <span>AGENT ALPHA HAMLESİ</span>
+                    <span>AGENT ALPHA MOVE</span>
                     {pendingHumanActions.alpha && (
-                      <span className="text-emerald-300">Seçildi ✓</span>
+                      <span className="text-emerald-300">Selected ✓</span>
                     )}
                   </div>
                 )}
@@ -552,7 +552,7 @@ export const DuelStage: React.FC<DuelStageProps> = ({
                       C
                     </kbd>
                     <ShieldCheck className="w-4 h-4" />
-                    <span>İŞ BİRLİĞİ</span>
+                    <span>COOPERATE</span>
                   </button>
 
                   <button
@@ -568,7 +568,7 @@ export const DuelStage: React.FC<DuelStageProps> = ({
                       D
                     </kbd>
                     <Swords className="w-4 h-4" />
-                    <span>İHANET</span>
+                    <span>DEFECT</span>
                   </button>
                 </div>
               </div>
@@ -578,9 +578,9 @@ export const DuelStage: React.FC<DuelStageProps> = ({
               <div className="space-y-1.5">
                 {bothHuman && (
                   <div className="flex items-center justify-between text-[11px] font-mono text-fuchsia-300">
-                    <span>AGENT BETA HAMLESİ</span>
+                    <span>AGENT BETA MOVE</span>
                     {pendingHumanActions.beta && (
-                      <span className="text-emerald-300">Seçildi ✓</span>
+                      <span className="text-emerald-300">Selected ✓</span>
                     )}
                   </div>
                 )}
@@ -598,7 +598,7 @@ export const DuelStage: React.FC<DuelStageProps> = ({
                       {bothHuman ? 'J' : 'C'}
                     </kbd>
                     <ShieldCheck className="w-4 h-4" />
-                    <span>İŞ BİRLİĞİ</span>
+                    <span>COOPERATE</span>
                   </button>
 
                   <button
@@ -614,7 +614,7 @@ export const DuelStage: React.FC<DuelStageProps> = ({
                       {bothHuman ? 'K' : 'D'}
                     </kbd>
                     <Swords className="w-4 h-4" />
-                    <span>İHANET</span>
+                    <span>DEFECT</span>
                   </button>
                 </div>
               </div>
@@ -628,21 +628,21 @@ export const DuelStage: React.FC<DuelStageProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
           <div className="flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-slate-400">
             <History className="w-3.5 h-3.5 text-slate-500" />
-            <span>SON 12 TUR GEÇMİŞİ</span>
+            <span>LAST 12 ROUNDS HISTORY</span>
           </div>
           <div className="flex items-center gap-3 text-[10px] font-mono text-slate-400">
             <span className="inline-flex items-center gap-1">
-              <span className="w-2 h-2 rounded-sm bg-[#00ff9d]" /> C = İş Birliği
+              <span className="w-2 h-2 rounded-sm bg-[#00ff9d]" /> C = Cooperate
             </span>
             <span className="inline-flex items-center gap-1">
-              <span className="w-2 h-2 rounded-sm bg-[#ff2a5f]" /> D = İhanet
+              <span className="w-2 h-2 rounded-sm bg-[#ff2a5f]" /> D = Defect
             </span>
           </div>
         </div>
 
         {last12.length === 0 ? (
           <div className="text-center py-1.5 text-xs font-mono text-slate-500">
-            Henüz tur oynanmadı.
+            No rounds played yet.
           </div>
         ) : (
           <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5">
@@ -658,7 +658,7 @@ export const DuelStage: React.FC<DuelStageProps> = ({
               return (
                 <div
                   key={r.round}
-                  title={`Tur #${r.round}: Alpha ${aC ? 'C' : 'D'} (+${r.alphaReward}) vs Beta ${bC ? 'C' : 'D'} (+${r.betaReward})`}
+                  title={`Round #${r.round}: Alpha ${aC ? 'C' : 'D'} (+${r.alphaReward}) vs Beta ${bC ? 'C' : 'D'} (+${r.betaReward})`}
                   className="flex flex-col items-center gap-1 shrink-0 min-w-[28px]"
                 >
                   <span

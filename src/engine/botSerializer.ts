@@ -51,7 +51,7 @@ export function createExportedBot(
 ): ExportedBot {
   const sourceLabel = agent === 'alpha' ? 'Agent Alpha' : 'Agent Beta';
   const trimmedName = customName?.trim();
-  const defaultName = `${sourceLabel} (${snapshot.round} Tur)`;
+  const defaultName = `${sourceLabel} (${snapshot.round} Rounds)`;
   const qTable =
     agent === 'alpha' ? snapshot.alphaQTable : snapshot.betaQTable;
 
@@ -129,16 +129,16 @@ export function parseImportedBotJson(rawText: string): ExportedBot {
   try {
     parsed = JSON.parse(rawText);
   } catch {
-    throw new Error('Geçersiz JSON dosyası. Lütfen geçerli bir bot dosyası seçin.');
+    throw new Error('Invalid JSON file. Please select a valid bot file.');
   }
 
   if (typeof parsed !== 'object' || parsed === null) {
-    throw new Error('Bot dosyası beklenen formatta değil.');
+    throw new Error('Bot file is not in the expected format.');
   }
 
   const obj = parsed as Record<string, unknown>;
   if (typeof obj.qTable !== 'object' || obj.qTable === null) {
-    throw new Error('Bot dosyasında geçerli bir Q-Table bulunamadı.');
+    throw new Error('No valid Q-Table found in the bot file.');
   }
 
   const rawQTable = obj.qTable as Record<string, unknown>;
@@ -163,7 +163,7 @@ export function parseImportedBotJson(rawText: string): ExportedBot {
   }
 
   if (validEntries === 0) {
-    throw new Error('Bot Q-Table verisi boş veya bozuk.');
+    throw new Error('Bot Q-Table data is empty or corrupted.');
   }
 
   const rawMatrix =
@@ -223,7 +223,7 @@ export function parseImportedBotJson(rawText: string): ExportedBot {
     name:
       typeof obj.name === 'string' && obj.name.trim().length > 0
         ? obj.name.trim()
-        : `İçe Aktarılan Bot (${trainedRounds} Tur)`,
+        : `Imported Bot (${trainedRounds} Rounds)`,
     sourceAgent,
     trainedRounds,
     exportedAt:
